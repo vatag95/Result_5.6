@@ -27,8 +27,6 @@ class MainClass
             anketa.lastName = Console.ReadLine();
         } while (CheckStr(anketa.lastName, out int corrstr));
 
-        string age;
-        int intage;
 
             bool validInput3 = false;
 
@@ -159,7 +157,7 @@ class MainClass
             {
                 Console.WriteLine("Ваш любимый цвет #{0}", i + 1);
                 favColor[i] = Console.ReadLine();
-                
+
             } while (CheckStr(favColor[i], out int corrstr));
         }
         return favColor;
@@ -167,6 +165,7 @@ class MainClass
 
     static void ShowAnketa((string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) anketa)
     {
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("Ваши данные: ");
         Console.WriteLine("Имя и Фамилия: {0} {1}.", anketa.name, anketa.lastName);
         Console.WriteLine("Возраст: {0}", anketa.Age);
