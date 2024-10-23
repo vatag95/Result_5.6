@@ -5,16 +5,16 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Ответьте на вопросы ниже, для заполнения анкеты:");
-        ShowAnketa(AddUser());
+        var anketa = AddUser();
+        ShowAnketa(anketa);
         
     }
 
 
-    static (string name, int Age, string lastName, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) AddUser()
+    static (string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) AddUser()
     {
         (string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) anketa = new();
-
+        Console.WriteLine("Ответьте на вопросы ниже, для заполнения анкеты:");
         do
         {
             Console.WriteLine("Введите Ваше имя: ");
@@ -30,12 +30,24 @@ class MainClass
         string age;
         int intage;
 
-        do
-        {
-            Console.WriteLine("Введите Ваш возраст ");
-            age = Console.ReadLine();
-        }
-        while (CheckNum(age, out intage));
+            bool validInput3 = false;
+
+            while (!validInput3)
+            {
+                Console.WriteLine("Введите Ваш возраст ");
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out var number))
+                {
+                    anketa.Age = number;
+                    validInput3 = true; // Выход из цикла, если ввод корректен
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка. Введите корректное число.");
+                }
+            }
+            
 
         do
         {
@@ -85,17 +97,15 @@ class MainClass
             }
         }
 
-
-
         Console.ReadKey();
 
-        return AddUser();
-     }
+        return anketa;
+    }
 
 
     static bool CheckNum(string number, out int corrnumber)
     {
-        if (int.TryParse(number, out int intnum))
+        if (int.TryParse(number, out int intnum) && intnum > 0)
         {
             if (intnum > 0)
             {
@@ -112,38 +122,29 @@ class MainClass
     }
     static bool CheckStr(string str, out int corrstr)
     {
-        if (int.TryParse(str, out int strstr))
+        if (int.TryParse(str, out int strstr) || string.IsNullOrEmpty(str) || str.Length > 20)
         {
             Console.WriteLine("Ошибка. Введите данные повторно");
-            corrstr = strstr;
+            corrstr = 0;
             return true;
         }
-        else if (string.IsNullOrEmpty(str) || str.Length > 20)
-        {
-            Console.WriteLine("Ошибка. Введите данные повторно");
-            corrstr = strstr;
-            return true;
-        }
-        
-        corrstr = 0;
-        return false;
+            corrstr = 0;
+            return false;
     }
 
     static string[] petsNickname(int petSum)
     {
         
         string[] petNicks = new string[petSum];
-        string nick;
 
         for (int i = 0; i < petSum; i++)
         {
             do
             {
                 Console.WriteLine("Имя Вашего питомца #{0}: ", i + 1);
-                nick = Console.ReadLine();
+                petNicks[i] = Console.ReadLine();
 
-            } while (CheckStr(nick, out int corrstr));
-            petNicks[i] = nick;
+            } while (CheckStr(petNicks[i], out int corrstr));
         }
 
         return petNicks;
@@ -152,26 +153,37 @@ class MainClass
     static string[] favColor (int colorCount)
     {
         string[] favColor = new string[colorCount];
-        string color;
         for (int i = 0; i < colorCount; i++)
         {
             do
             {
                 Console.WriteLine("Ваш любимый цвет #{0}", i + 1);
-                color = Console.ReadLine();
+                favColor[i] = Console.ReadLine();
                 
-            } while (CheckStr(color, out int corrstr));
-            favColor[i] = color;
+            } while (CheckStr(favColor[i], out int corrstr));
         }
         return favColor;
     }
 
-    static void ShowAnketa((string name, string lastName, byte Age, string[] NicknamesPet, string[] favorColor, int colorSum, int petSum) anketa)
+    static void ShowAnketa((string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) anketa)
     {
         Console.WriteLine("Ваши данные: ");
         Console.WriteLine("Имя и Фамилия: {0} {1}.", anketa.name, anketa.lastName);
         Console.WriteLine("Возраст: {0}", anketa.Age);
         Console.WriteLine("Количество питомцев: {0}", anketa.petSum);
-       
+        if (anketa.petOwner == "да" && anketa.petSum > 0)
+        {
+            Console.WriteLine("Клички питомцев:");
+            foreach (var nick in anketa.NicknamesPet)
+            {
+                Console.WriteLine(nick);
+            }
+        }
+
+        Console.WriteLine("Любимые цвета:");
+        foreach (var color in anketa.favorColor)
+        {
+            Console.WriteLine(color);
+        }
     }
 }
