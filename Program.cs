@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 class MainClass
 {
@@ -40,19 +41,28 @@ class MainClass
             Console.WriteLine("Есть ли у Вас питомец? да/нет");
             anketa.petOwner = Console.ReadLine();
         } while (CheckStr(anketa.petOwner, out int corrstr));
+       
         if (anketa.petOwner == "да")
         {
             
-            do
-            {
+            
                 Console.WriteLine("Сколько у Вас питомцев?");
-                anketa.petSum = Convert.ToInt32(Console.ReadLine());
+                string? input = Console.ReadLine();
+
+                bool result = int.TryParse(input, out var number);
+            
+                if (result == true)
+                {
+                    anketa.petSum = number;
+                }
+                else if (result == false)
+            {
+                Console.WriteLine("Ошибка. Введите данные повторно");
             }
-            while(CheckNum(age, out intage));
 
-            anketa.NicknamesPet = petsNickname(anketa.petSum);
+             
         }
-
+       
         do
         {
             Console.WriteLine("Сколько у Вас любимых цветов?");
@@ -116,6 +126,7 @@ class MainClass
             {
                 Console.WriteLine("Имя Вашего питомца #{0}: ", i + 1);
                 nick = Console.ReadLine();
+
             } while (CheckStr(nick, out int corrstr));
             petNicks[i] = nick;
         }
@@ -134,9 +145,14 @@ class MainClass
                 Console.WriteLine("Ваш любимый цвет #{0}", i + 1);
                 color = Console.ReadLine();
                 
-            } while (CheckStr(color, out colorCount));
+            } while (CheckStr(color, out int corrstr));
             favColor[i] = color;
         }
         return favColor;
+    }
+
+    static void ShowAnketa((string userName, string userSurname, byte userAge, string[] NicknamesPet, string[] favColor) userAnketa)
+    {
+
     }
 }
