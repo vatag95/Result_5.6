@@ -6,13 +6,14 @@ class MainClass
     public static void Main(string[] args)
     {
         Console.WriteLine("Ответьте на вопросы ниже, для заполнения анкеты:");
-        AddUser();
+        ShowAnketa(AddUser());
+        
     }
 
 
     static (string name, int Age, string lastName, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) AddUser()
     {
-        (string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) anketa;
+        (string name, string lastName, int Age, string petOwner, int petSum, string[] NicknamesPet, int colorSum, string[] favorColor) anketa = new();
 
         do
         {
@@ -55,12 +56,14 @@ class MainClass
                     {
                         anketa.petSum = number;
                         validInput = true; // Выход из цикла, если ввод корректен
-                    }
+                        anketa.NicknamesPet = petsNickname(anketa.petSum);
+                }
                     else
                     {
                         Console.WriteLine("Ошибка. Введите корректное число.");
                     }
                 }
+            
             }
 
         bool validInput2 = false;
@@ -72,14 +75,17 @@ class MainClass
 
             if (int.TryParse(input, out var number))
             {
-                anketa.petSum = number;
+                anketa.colorSum = number;
                 validInput2 = true; // Выход из цикла, если ввод корректен
+                anketa.favorColor = favColor(anketa.colorSum);
             }
             else
             {
                 Console.WriteLine("Ошибка. Введите корректное число.");
             }
         }
+
+
 
         Console.ReadKey();
 
@@ -160,8 +166,12 @@ class MainClass
         return favColor;
     }
 
-    static void ShowAnketa((string userName, string userSurname, byte userAge, string[] NicknamesPet, string[] favColor) userAnketa)
+    static void ShowAnketa((string name, string lastName, byte Age, string[] NicknamesPet, string[] favorColor, int colorSum, int petSum) anketa)
     {
-
+        Console.WriteLine("Ваши данные: ");
+        Console.WriteLine("Имя и Фамилия: {0} {1}.", anketa.name, anketa.lastName);
+        Console.WriteLine("Возраст: {0}", anketa.Age);
+        Console.WriteLine("Количество питомцев: {0}", anketa.petSum);
+       
     }
 }
