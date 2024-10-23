@@ -44,33 +44,42 @@ class MainClass
        
         if (anketa.petOwner == "да")
         {
-            
-            
-                Console.WriteLine("Сколько у Вас питомцев?");
-                string? input = Console.ReadLine();
+                bool validInput = false;
 
-                bool result = int.TryParse(input, out var number);
-            
-                if (result == true)
+                while (!validInput)
                 {
-                    anketa.petSum = number;
+                    Console.WriteLine("Сколько у Вас питомцев?");
+                    string? input = Console.ReadLine();
+
+                    if (int.TryParse(input, out var number))
+                    {
+                        anketa.petSum = number;
+                        validInput = true; // Выход из цикла, если ввод корректен
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка. Введите корректное число.");
+                    }
                 }
-                else if (result == false)
-            {
-                Console.WriteLine("Ошибка. Введите данные повторно");
             }
 
-             
-        }
-       
-        do
+        bool validInput2 = false;
+
+        while (!validInput2)
         {
             Console.WriteLine("Сколько у Вас любимых цветов?");
-            anketa.colorSum = Convert.ToInt32(Console.ReadLine());
-        }
-        while (CheckNum(age, out intage));
+            string? input = Console.ReadLine();
 
-        anketa.favorColor = favColor(anketa.colorSum);
+            if (int.TryParse(input, out var number))
+            {
+                anketa.petSum = number;
+                validInput2 = true; // Выход из цикла, если ввод корректен
+            }
+            else
+            {
+                Console.WriteLine("Ошибка. Введите корректное число.");
+            }
+        }
 
         Console.ReadKey();
 
